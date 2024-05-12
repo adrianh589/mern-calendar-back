@@ -1,0 +1,2 @@
+"dev": "nodemon index.js", // Para ejecutar el archivo al guardar cambios
+"start": "node index.js"// Este debe ser manualmente (sin el nodemon)
