@@ -1,4 +1,4 @@
-const { response, request } = require('express');
+const { Response, Request } = require('express');
 const { validationResult } = require('express-validator');
 
 /**
@@ -9,7 +9,7 @@ const { validationResult } = require('express-validator');
  * @param {import('express').Response} res - El objeto de respuesta de Express.
  * @param {import('express').NextFunction} next - La función para pasar el control al siguiente middleware en la cadena.
  */
-const validarCampos = (req = request, res = response, next) => {
+const validarCampos = (req = request, res = Response, next) => {
 
     // Manejo de errores
     const errors = validationResult(req);

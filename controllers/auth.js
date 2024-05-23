@@ -1,5 +1,4 @@
-const { response, request } = require('express');
-const { validationResult } = require('express-validator');
+const { Response, Request } = require('express');
 const Usuario = require('../models/Usuario');
 const bcrypt = require('bcryptjs');
 const { generateJWT } = require('../helpers/jwt');
@@ -10,12 +9,11 @@ const { generateJWT } = require('../helpers/jwt');
  * @param {response} res - El objeto de respuesta HTTP.
  * @returns {response} Objeto de respuesta HTTP.
  */
-const loginUsuario = async (req = request, res = response) => {
+const loginUsuario = async (req = Request, res = Response) => {
     const { email, password } = req.body;
 
     try {
         let usuario = await Usuario.findOne({ email });
-
         if (!usuario) {
             return res.status(400).json({
                 ok: false,
@@ -39,7 +37,7 @@ const loginUsuario = async (req = request, res = response) => {
         res.json({
             ok: true,
             msg: 'login',
-            uid: usuario.uid,
+            uid: usuario.id,
             name: usuario.name,
             token
         });
@@ -59,7 +57,7 @@ const loginUsuario = async (req = request, res = response) => {
  * @param {response} res - El objeto de respuesta HTTP.
  * @returns {response} Objeto de respuesta HTTP.
  */
-const crearUsuario = async (req = request, res = response) => {
+const crearUsuario = async (req = Request, res = Response) => {
     const { email, password } = req.body;
 
     try {
@@ -104,7 +102,7 @@ const crearUsuario = async (req = request, res = response) => {
  * @param {response} res - El objeto de respuesta HTTP.
  * @returns {response} Objeto de respuesta HTTP.
  */
-const revalidarToken = async (req = request, res = response) => {
+const revalidarToken = async (req = Request, res = Response) => {
     const { name, uid } = req;
 
     const token = await generateJWT(uid, name);
@@ -112,7 +110,9 @@ const revalidarToken = async (req = request, res = response) => {
     res.json({
         ok: true,
         msg: 'Renovación del token exitosa',
-        token
+        token,
+        uid,
+        name
     });
 };
 
